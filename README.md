@@ -1,6 +1,8 @@
 # ansible-arch-linux
 
-[![Lint](https://github.com/loganmarchione/ansible-arch-linux/actions/workflows/lint.yml/badge.svg)](https://github.com/loganmarchione/ansible-arch-linux/actions/workflows/lint.yml)
+[![Lint](https://github.com/carlosherrerascz/ansible-arch-linux/actions/workflows/lint.yml/badge.svg)](https://github.com/carlosherrerascz/ansible-arch-linux/actions/workflows/lint.yml)
+
+This project is a fork of [loganmarchione's with the same name](https://github.com/loganmarchione/ansible-arch-linux/) with some modifications.
 
 Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against localhost)
 
@@ -35,4 +37,4 @@ Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against 
    ```
 
 ## TODO
-- [X] Add reflector pacman hook
+- [X] Add Timeshift Pacman hook
