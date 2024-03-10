@@ -2,7 +2,7 @@
 
 [![Lint](https://github.com/carlosherrerascz/ansible-arch-linux/actions/workflows/lint.yml/badge.svg)](https://github.com/carlosherrerascz/ansible-arch-linux/actions/workflows/lint.yml)
 
-This project is a fork of [loganmarchione's with the same name](https://github.com/loganmarchione/ansible-arch-linux/) with some modifications.
+This project is a fork of [loganmarchione's with the same name](https://github.com/loganmarchione/ansible-arch-linux/). Albeit with some modifications better suited to my needs.
 
 Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against localhost)
 
