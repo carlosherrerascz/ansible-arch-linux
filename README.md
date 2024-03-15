@@ -7,7 +7,6 @@ This project is a fork of [loganmarchione's with the same name](https://github.c
 Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against localhost)
 
 ## Explanation
-
 * This is meant for _my machine_. You can use it as a guide, but please don't blindly run it on your machine (it will break things).
 * This is meant to be run in the [Post-installation](https://wiki.archlinux.org/title/installation_guide#Post-installation) section of the [Installation guide](https://wiki.archlinux.org/title/installation_guide) (i.e., after your partitions are setup, user account is created, fstab is setup, chroot, etc...)
 
@@ -36,5 +35,3 @@ Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against 
    ansible-playbook main.yml --ask-become-pass
    ```
 
-## TODO
-- [X] Add Timeshift Pacman hook

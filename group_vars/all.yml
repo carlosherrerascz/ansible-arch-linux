@@ -3,8 +3,8 @@
 # User configuration
 #
 user:
-  name: logan
-  full_name: "Logan Marchione"
+  name: carlos
+  full_name: "Carlos Herrera"
   primary_group: users
   additional_groups: docker,wheel
   # /bin/bash or /bin/zsh
@@ -15,13 +15,14 @@ user:
 git:
   name: "{{ user['full_name'] }}"
   # obfuscated a little so bots won't find it
-  email_b64: "bG9nYW5AbG9nYW5tYXJjaGlvbmUuY29t"
+  email_b64: "Y2hlcnJlcmFzY3pAZ21haWwuY29tCg=="
   # can be "cache", "store", "osxkeychain", or "manager"
   helper: "cache"
   # can be "true" or "false"
   rebase: "true"
   # see this https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---color-movedltmodegt
   colorMoved: "zebra"
+  autoSetupRemote: true
 
 #
 # Miscellaneous
@@ -29,7 +30,15 @@ git:
 
 # desktop environment to install
 # "kde" or "gnome"
-desktop: kde
+desktop: hyprland
+
+theme:
+  hyprland: tokyo-night-sddm
+  kde: breeze
+
+compositor_command:
+  hyprland: Hyprland
+  kde: kde
 
 # only AMD or Intel CPUs are currently supported
 # true or false
@@ -49,7 +58,7 @@ enable_bluetooth: false
 
 # whether to install laptop tools
 # true or false
-laptop: false
+laptop: true
 
 # how many parallel downloads to run at once
 pacman:
@@ -63,9 +72,15 @@ aur_helper: yay
 # Services
 #
 
+# Set up automatic btrfs snapshots with Timeshift.
+# MUST HAVE GRUB SET UP AS BOOTLOADER!
+# Will run automated snapshots before every package update with
+# `timeshift-autosnap` and make them appear as boot options.
+enable_auto_btrfs_snapshots: true
+
 # if not using LVM, disable it
 # true or false
-disable_lvm: true
+disable_lvm: false
 
 # if not using systemd homed, disable it
 # true or false
@@ -75,12 +90,13 @@ disable_systemd_homed: true
 # Packages
 #
 packages:
+  - ansible-lint
   - alsa-utils
   - alsa-plugins
   - alsa-firmware
   - bash
   - bash-completion
-  - cadaver
+  - bitwarden
   - chromium
   - code
   - curl
@@ -93,17 +109,18 @@ packages:
   - fzf
   - git
   - gnupg
+  - go
   - gparted
   - gvfs
   - gvfs-smb
   - htop
-  - inkscape
   - inetutils
   - iotop
   - iperf3
   - iputils
   - jq
-  - keepassxc
+  - kitty
+  - krita
   - kubectl
   - linux-firmware
   - man
@@ -112,10 +129,12 @@ packages:
   - minicom
   - ncdu
   - neofetch
+  - neovim
   - networkmanager
-  - nextcloud-client
-  - nextcloud-client-cloudproviders
+  - nodejs
   - ntfs-3g
+  - obs-studio
+  - osbidian
   - openresolv
   - openssh
   - openvpn
@@ -125,15 +144,11 @@ packages:
   - pkgstats
   - qbittorrent
   - rsync
-  - screen
   - solaar
   - sudo
-  - texmaker
-  - texlive-latexextra
   - thunar
+  - tmux
   - tree
-  - usbutils
-  - unrar-free
   - unzip
   - vi
   - vim
@@ -147,22 +162,27 @@ packages:
   - xfsprogs
   - youtube-dl
   - zip
+  - zoxide
   - zsh
   - zsh-completions
   - zstd
 
 aur_packages:
   - 7-zip-bin
-  - etcher-bin
-  - joplin-appimage
-  - ledger-live-bin
-  - ledger-udev
-  - makemkv
+  - brave-bin
+  - bruno
+  - davinci-resolve
+  - mailspring-bin
   - mullvad-vpn-bin
-  - rpi-imager-bin
-  - svgo
-  - variety-git
+  - protonup-qt-bin
   - ventoy-bin
+
+snapshot_dependencies:
+  packages:
+    - timeshift
+    - grub-btrfs
+  aur_packages:
+    - timeshift-autosnap
 
 flatpaks:
   - com.discordapp.Discord
@@ -182,7 +202,6 @@ flatpaks:
   - org.gtk.Gtk3theme.Yaru-dark
   - org.gtk.Gtk3theme.Yaru-light
   - org.libreoffice.LibreOffice
-  - org.mozilla.Thunderbird
   - org.remmina.Remmina
   - us.zoom.Zoom
   # See other themes here
@@ -202,21 +221,6 @@ base_fonts:
   - otf-cascadia-code
   - ttf-cascadia-code
   - ttf-hack
-
-vscode_extension_list:
-  - ms-python.python
-  - ms-azuretools.vscode-docker
-  - redhat.vscode-yaml
-  - redhat.ansible
-  - vscode-icons-team.vscode-icons
-  - HashiCorp.HCL
-  - HashiCorp.terraform
-  - golang.go
-  - arcticicestudio.nord-visual-studio-code
-  - dracula-theme.theme-dracula
-  - donjayamanne.githistory
-  - eamodio.gitlens
-  - mhutchie.git-graph
 
 printing_scanning_packages:
   - cups

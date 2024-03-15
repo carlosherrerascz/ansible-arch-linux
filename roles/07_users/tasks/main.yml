@@ -39,6 +39,12 @@
     scope: global
     value: "{{ git.colorMoved }}"
 
+- name: Git config push.autoSetupRemote
+  community.general.git_config:
+    name: push.autoSetupRemote
+    scope: global
+    value: "{{ git.autoSetupRemote }}"
+
 - name: Install Oh My Zsh
   ansible.builtin.git:
     repo: 'https://github.com/ohmyzsh/ohmyzsh.git'
@@ -71,26 +77,40 @@
     group: "{{ user.primary_group }}"
     mode: 0750
 
-- name: Install VS Code extensions
-  ansible.builtin.shell: code --install-extension {{ item }}  # noqa command-instead-of-shell
-  with_items: "{{ vscode_extension_list }}"
-  changed_when: no
+# - name: Install VS Code extensions
+#   ansible.builtin.shell: code --install-extension {{ item }}  # noqa command-instead-of-shell
+#   with_items: "{{ vscode_extension_list }}"
+#   changed_when: no
+
+- name: Set dotfile path var
+  ansible.builtin.set_fact:
+    dotfiles_path: '/home/{{ user.name }}/codetest/dotfiles'
 
 - name: Get dotfiles
-  ansible.builtin.get_url:
-    url: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-    mode: 0644
-    owner: "{{ user.name }}"
-    group: "{{ user.primary_group }}"
-  with_items:
-    - { src: 'https://raw.githubusercontent.com/loganmarchione/dotfiles/main/.aliases', dest: '/home/logan/.aliases' }
-    - { src: 'https://raw.githubusercontent.com/loganmarchione/dotfiles/main/.vimrc', dest: '/home/logan/.vimrc' }
-    - { src: 'https://raw.githubusercontent.com/loganmarchione/dotfiles/main/.bashrc', dest: '/home/logan/.bashrc' }
-    - { src: 'https://raw.githubusercontent.com/loganmarchione/dotfiles/main/.zshrc', dest: '/home/logan/.zshrc' }
-    - { src: 'https://raw.githubusercontent.com/loganmarchione/dotfiles/main/.p10k.zsh', dest: '/home/logan/.p10k.zsh' }
+  ansible.builtin.git:
+    repo: https://github.com/carlosherrerascz/dotfiles
+    dest: '{{ dotfiles_path }}'
+    clone: yes
+    update: yes
+    version: master
 
-- name: Update makepkg configuration file
+- name: Symlink dotfiles
+  ansible.builtin.file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: '{{ dotfiles_path }}/shared/.aliases', dest: '/home/{{ user.name }}/.aliases' }
+    - { src: '{{ dotfiles_path }}/shared/bash/.bashrc', dest: '/home/{{ user.name }}/.bashrc' }
+    - { src: '{{ dotfiles_path }}/shared/zsh/.zshrc', dest: '/home/{{ user.name }}/.zshrc' }
+    - { src: '{{ dotfiles_path }}/shared/zsh/.p10k.zsh', dest: '/home/{{ user.name }}/.p10k.zsh' }
+    - { src: '{{ dotfiles_path }}/shared/nvim/init.lua', dest: '/home/{{ user.name }}/.config/nvim/init.lua' }
+    - { src: '{{ dotfiles_path }}/shared/vscode/keybindings.json', dest: '/home/{{ user.name }}/.config/Code/User/keybindings.json' }
+
+# Recommended for practically anyone with a modern computer as they all come
+# with multiple cores.
+# See https://wiki.archlinux.org/title/makepkg#Parallel_compilation for more details.
+- name: Update makepkg configuration file to allow parallel compilation on multi-core/multi-processor systems
   ansible.builtin.template:
     src: makepkg.conf
     dest: "/home/{{ user.name }}/.makepkg.conf"

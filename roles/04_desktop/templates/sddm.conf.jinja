@@ -1,0 +1,25 @@
+[Autologin]
+Relogin=false
+Session=
+User=
+
+[General]
+DefaultSession={{ desktop }}.desktop
+DisplayServer=x11
+GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
+InputMethod=
+Numlock=none
+HaltCommand=/usr/bin/systemctl poweroff
+RebootCommand=/usr/bin/systemctl reboot
+
+[Theme]
+Current="{{ compositor_command.desktop}}
+
+[Wayland]
+CompositorCommand={{ desktop }}
+EnableHiDPI=true
+SessionDir=/usr/share/wayland-sessions
+
+[Users]
+MaximumUid=60513
+MinimumUid=1000

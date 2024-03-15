@@ -1,0 +1,59 @@
+---
+- name: Install packages
+  community.general.pacman:
+    name: "{{ snapshot_dependencies.packages }}"
+    state: present
+  become: true
+
+- name: Timeshift installed
+  ansible.builtin.pause:
+    prompt: |
+      "Timeshift has been installed. Before continuing with the setup, please manually configure for btrfs snapshots by following the instructions below."
+      "https://discovery.endeavouros.com/encrypted-installation/btrfs-with-timeshift-snapshots-on-the-grub-menu/2022/02/"
+      "Follow instructions in bullet 4."
+      "Press [ENTER] once completed."
+    echo: no
+
+
+- name: Install AUR packages
+  kewlfft.aur.aur:
+    name: "{{ snapshot_dependencies.aur_packages }}"
+    state: present
+    use: "{{ aur_helper }}"
+
+- name: Start systemd service - cronie.service
+  become: true
+  ansible.builtin.systemd:
+    name: cronie.service
+    state: started
+    enabled: yes
+
+- name: Create a grub-btrfsd override directory
+  ansible.builtin.file:
+    owner: root
+    group: root
+    mode: 0755
+    path: /etc/systemd/system/grub-btrfsd.service.d
+    state: directory
+
+- name: Set up grub-btrfsd override
+  community.general.ini_file:
+    dest: /etc/systemd/system/grub-btrfsd.service.d/execstart_override.conf
+    owner: root
+    group: root
+    mode: 0644
+    section: Service
+    option: ExecStart
+    value: ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto
+
+- name: Rebuild grub config file
+  become: true
+  ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+  register: cmd_output
+  changed_when: cmd_output.rc != 0
+
+- name: Start systemd service - grub-btrfsd.service
+  ansible.builtin.systemd:
+    name: grub-btrfsd.service
+    state: started
+    enabled: yes

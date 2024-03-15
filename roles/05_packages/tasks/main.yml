@@ -14,6 +14,10 @@
 - name: Install flatpaks
   ansible.builtin.import_tasks: flatpak.yml
 
+- name: Install and setup automated snapshots
+  ansible.builtin.import_tasks: snapshots.yml
+  when: enable_auto_btrfs_snapshots
+
 - name: Start systemd service - systemd-modules-load.service
   ansible.builtin.systemd:
     name: systemd-modules-load.service

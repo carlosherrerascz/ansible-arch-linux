@@ -1,6 +1,7 @@
 ---
 - name: Install desktop environment
   when: desktop == "kde"
+  become: true
   block:
     - name: Install Plasma
       community.general.pacman:
@@ -17,16 +18,10 @@
           - sddm
           - xdg-desktop-portal-kde
         state: present
-      become: true
-
-    - name: Start systemd service - sddm.service
-      ansible.builtin.systemd:
-        name: sddm.service
-        enabled: yes
-      become: true
 
 - name: Install desktop environment
   when: desktop == "gnome"
+  become: true
   block:
     - name: Install Gnome
       community.general.pacman:
@@ -37,26 +32,44 @@
           - gdm
           - xdg-desktop-portal-gnome
         state: present
-      become: true
 
     - name: Start systemd service - gdm.service
       ansible.builtin.systemd:
         name: gdm.service
         enabled: yes
-      become: true
 
- - name: Install desktop environment
-   when: desktop == "hyprland"
-   block: 
+- name: Install desktop environment
+  when: desktop == "hyprland"
+  become: true
+  block:
     - name: Install hyprland
       community.general.pacman:
-        name: 
+        name:
           - hyprland
           - waybar
           - sddm
         state: present
-    - name: Start systemd service -sddm.service
-        ansible.builtin.systemd:
-          name: sddm.service
-          enabled: yes
-   become: true
+
+    - name: Install end4's Hyprland dotfiles
+      when: desktop == "hyprland"
+      ansible.builtin.command: bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")
+      register: cmd_output
+      changed_when: cmd_output.rc != 0
+
+- name: Set up SDDM for DE
+  when: desktop == "hyprland" or desktop == "kde"
+  become: true
+  block:
+    - name: Set up SDDM conf file
+      ansible.builtin.template:
+        src: sddm.conf.jinja
+        dest: /etc/sddm.conf
+        backup: no
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Start systemd service - sddm.service
+      ansible.builtin.systemd:
+        name: sddm.service
+        enabled: yes
