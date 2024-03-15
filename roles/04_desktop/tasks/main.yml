@@ -50,12 +50,6 @@
           - sddm
         state: present
 
-    - name: Install end4's Hyprland dotfiles
-      when: desktop == "hyprland"
-      ansible.builtin.command: bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")
-      register: cmd_output
-      changed_when: cmd_output.rc != 0
-
 - name: Set up SDDM for DE
   when: desktop == "hyprland" or desktop == "kde"
   become: true

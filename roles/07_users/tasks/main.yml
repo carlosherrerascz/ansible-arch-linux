@@ -94,6 +94,12 @@
     update: yes
     version: master
 
+- name: Install end-4's Hyprland dotfiles
+  when: desktop == "hyprland"
+  ansible.builtin.command: bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")
+  register: cmd_output
+  changed_when: cmd_output.rc != 0
+
 - name: Symlink dotfiles
   ansible.builtin.file:
     src: '{{ item.src }}'
