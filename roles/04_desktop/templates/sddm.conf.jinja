@@ -13,10 +13,10 @@ HaltCommand=/usr/bin/systemctl poweroff
 RebootCommand=/usr/bin/systemctl reboot
 
 [Theme]
-Current="{{ compositor_command.desktop}}
+Current="{{ theme[desktop] }}
 
 [Wayland]
-CompositorCommand={{ desktop }}
+CompositorCommand={{ compositor_command[desktop] }}
 EnableHiDPI=true
 SessionDir=/usr/share/wayland-sessions
 
