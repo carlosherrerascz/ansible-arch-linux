@@ -30,7 +30,7 @@ git:
 
 # desktop environment to install
 # "kde" or "gnome"
-desktop: hyprland
+desktop: gnome
 
 theme:
   hyprland: tokyo-night-sddm
@@ -98,7 +98,6 @@ packages:
   - bash-completion
   - bitwarden
   - chromium
-  - code
   - curl
   - docker
   - docker-compose
@@ -134,8 +133,8 @@ packages:
   - nodejs
   - ntfs-3g
   - obs-studio
-  - osbidian
-  - openresolv
+  - obsidian
+  # - openresolv
   - openssh
   - openvpn
   - picocom
@@ -160,7 +159,6 @@ packages:
   # Needed for GTK apps that run as Flatpaks
   - xdg-desktop-portal-gtk
   - xfsprogs
-  - youtube-dl
   - zip
   - zoxide
   - zsh
@@ -170,12 +168,13 @@ packages:
 aur_packages:
   - 7-zip-bin
   - brave-bin
-  - bruno
   - davinci-resolve
   - mailspring-bin
   - mullvad-vpn-bin
   - protonup-qt-bin
   - ventoy-bin
+  - yt-dlp
+
 
 snapshot_dependencies:
   packages:
@@ -185,6 +184,7 @@ snapshot_dependencies:
     - timeshift-autosnap
 
 flatpaks:
+  - com.usebruno.Bruno
   - com.discordapp.Discord
   - com.github.tchx84.Flatseal
   - com.slack.Slack
