@@ -45,6 +45,26 @@
     scope: global
     value: "{{ git.autoSetupRemote }}"
 
+- name: Install Stephan Raabe's dotfiles for Hyprland config
+  when: desktop == "hyprland"
+  block:
+    - name: Clone down
+      ansible.builtin.git:
+        repo: 'https://gitlab.com/stephan-raabe/dotfiles.git'
+        dest: "/home/{{ user.name }}/stephan-raabe-dotfiles"
+        clone: yes
+        update: yes
+        version: main
+        depth: 1
+
+    - name: Install Stephan Raabe's dotfiles
+      ansible.builtin.pause:
+        prompt: |
+          "As this script is interactive, you will first need to run the following script to completion in a separate session before continuing:"
+          "/home/{{ user.name }}/stephan-raabe-dotfiles/install.sh"
+          "Press [ENTER] once completed."
+        echo: no
+
 - name: Install Oh My Zsh
   ansible.builtin.git:
     repo: 'https://github.com/ohmyzsh/ohmyzsh.git'
@@ -96,23 +116,17 @@
     update: yes
     version: master
 
-- name: Install end-4's Hyprland dotfiles
-  when: desktop == "hyprland"
-  ansible.builtin.command: bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")
-  register: cmd_output
-  changed_when: cmd_output.rc != 0
-
-- name: Add ~/.config folder
+- name: Make sure ~/.config folder is present
   ansible.builtin.file:
     path: '/home/{{ user.name }}/.config'
     state: directory
 
-- name: Add nvim config
+- name: Add nvim config folder is present
   ansible.builtin.file:
     path: '/home/{{ user.name }}/.config/nvim'
     state: directory
 
-- name: Add vscode config
+- name: Add vscode config folder is present
   ansible.builtin.file:
     path: '/home/{{ user.name }}/.config/Code/User'
     state: directory
