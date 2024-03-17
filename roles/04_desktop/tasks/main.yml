@@ -33,6 +33,13 @@
           - xdg-desktop-portal-gnome
         state: present
 
+    - name: Stop systemd service - sddm.service
+      ansible.builtin.systemd:
+        name: sddm.service
+        enabled: no
+      ignore_errors: true
+      register: ignore_errors_register
+
     - name: Start systemd service - gdm.service
       ansible.builtin.systemd:
         name: gdm.service
@@ -62,8 +69,16 @@
         owner: root
         group: root
         mode: 0644
+  
+    - name: Stop systemd service - gdm.service
+      ansible.builtin.systemd:
+        name: gdm.service
+        enabled: no
+      ignore_errors: true
+      register: ignore_errors_register
 
     - name: Start systemd service - sddm.service
       ansible.builtin.systemd:
         name: sddm.service
         enabled: yes
+
