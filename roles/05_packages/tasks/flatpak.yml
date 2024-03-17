@@ -11,3 +11,10 @@
     name: "{{ flatpaks }}"
     state: present
     remote: flathub
+
+- name: Install Gnome flatpaks
+  when: desktop == "gnome"
+  community.general.flatpak:
+    name: 'ca.desrt.dconf-editor'
+    state: present
+    remote: flathub
