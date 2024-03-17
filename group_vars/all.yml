@@ -30,7 +30,7 @@ git:
 
 # desktop environment to install
 # "kde" or "gnome"
-desktop: gnome
+desktop: hyprland
 
 theme:
   hyprland: tokyo-night-sddm
@@ -91,6 +91,7 @@ disable_systemd_homed: true
 #
 packages:
   - ansible-lint
+  - alacritty
   - alsa-utils
   - alsa-plugins
   - alsa-firmware
@@ -118,7 +119,6 @@ packages:
   - iperf3
   - iputils
   - jq
-  - kitty
   - krita
   - kubectl
   - linux-firmware
@@ -172,7 +172,7 @@ aur_packages:
   - mailspring-bin
   - mullvad-vpn-bin
   - protonup-qt-bin
-  - tokyo-night-sddm
+  - sddm-theme-tokyo-night
   - ventoy-bin
   - yt-dlp
 
