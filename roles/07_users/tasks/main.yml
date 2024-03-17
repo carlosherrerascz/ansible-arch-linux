@@ -60,6 +60,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.primary_group }}"
     mode: 0750
+  become: true
 
 - name: Install Powerlevel10k theme
   ansible.builtin.git:
@@ -76,6 +77,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.primary_group }}"
     mode: 0750
+  become: yes
 
 # - name: Install VS Code extensions
 #   ansible.builtin.shell: code --install-extension {{ item }}  # noqa command-instead-of-shell
@@ -84,7 +86,7 @@
 
 - name: Set dotfile path var
   ansible.builtin.set_fact:
-    dotfiles_path: '/home/{{ user.name }}/codetest/dotfiles'
+    dotfiles_path: '/home/{{ user.name }}/code/dotfiles'
 
 - name: Get dotfiles
   ansible.builtin.git:
@@ -100,6 +102,31 @@
   register: cmd_output
   changed_when: cmd_output.rc != 0
 
+- name: Add ~/.config folder
+  ansible.builtin.file:
+    path: '/home/{{ user.name }}/.config'
+    state: directory
+
+- name: Add nvim config
+  ansible.builtin.file:
+    path: '/home/{{ user.name }}/.config/nvim'
+    state: directory
+
+- name: Add vscode config
+  ansible.builtin.file:
+    path: '/home/{{ user.name }}/.config/Code/User'
+    state: directory
+
+- name: Make sure there is no VSCode keybindings file
+  ansible.builtin.file:
+    path: '/home/{{ user.name }}//.config/Code/User/keybindings.json'
+    state: absent
+
+- name: Make sure there is no .bashrc file
+  ansible.builtin.file:
+    path: '/home/{{ user.name }}//.bashrc'
+    state: absent
+
 - name: Symlink dotfiles
   ansible.builtin.file:
     src: '{{ item.src }}'
@@ -112,6 +139,7 @@
     - { src: '{{ dotfiles_path }}/shared/zsh/.p10k.zsh', dest: '/home/{{ user.name }}/.p10k.zsh' }
     - { src: '{{ dotfiles_path }}/shared/nvim/init.lua', dest: '/home/{{ user.name }}/.config/nvim/init.lua' }
     - { src: '{{ dotfiles_path }}/shared/vscode/keybindings.json', dest: '/home/{{ user.name }}/.config/Code/User/keybindings.json' }
+  become: true
 
 # Recommended for practically anyone with a modern computer as they all come
 # with multiple cores.
@@ -124,6 +152,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.primary_group }}"
     mode: 0644
+  become: true
 
 - name: Mask systemd services - lvm
   ansible.builtin.systemd:
