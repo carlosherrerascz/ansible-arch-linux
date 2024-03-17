@@ -1,9 +1,9 @@
 ---
 - name: Install packages
+  become: true
   community.general.pacman:
     name: "{{ snapshot_dependencies.packages }}"
     state: present
-  become: true
 
 - name: Timeshift installed
   ansible.builtin.pause:
@@ -29,6 +29,7 @@
     enabled: yes
 
 - name: Create a grub-btrfsd override directory
+  become: true
   ansible.builtin.file:
     owner: root
     group: root
@@ -37,6 +38,7 @@
     state: directory
 
 - name: Set up grub-btrfsd override
+  become: true
   community.general.ini_file:
     dest: /etc/systemd/system/grub-btrfsd.service.d/execstart_override.conf
     owner: root
@@ -53,6 +55,7 @@
   changed_when: cmd_output.rc != 0
 
 - name: Start systemd service - grub-btrfsd.service
+  become: true
   ansible.builtin.systemd:
     name: grub-btrfsd.service
     state: started
