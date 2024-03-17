@@ -172,6 +172,7 @@ aur_packages:
   - mailspring-bin
   - mullvad-vpn-bin
   - protonup-qt-bin
+  - tokyo-night-sddm
   - ventoy-bin
   - yt-dlp
 
@@ -192,7 +193,6 @@ flatpaks:
   - com.valvesoftware.Steam
   - com.valvesoftware.Steam.CompatibilityTool.Proton
   - fr.handbrake.ghb
-  - info.beyondallreason.bar
   - org.bunkus.mkvtoolnix-gui
   - org.freedesktop.Platform.ffmpeg-full/x86_64/23.08
   - org.freedesktop.Platform.openh264/x86_64/2.3.0
