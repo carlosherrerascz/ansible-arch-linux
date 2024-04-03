@@ -30,7 +30,7 @@ git:
 
 # desktop environment to install
 # "kde" or "gnome"
-desktop: hyprland
+desktop: gnome
 
 theme:
   hyprland: tokyo-night-sddm
@@ -115,6 +115,7 @@ packages:
   - gvfs-smb
   - htop
   - inetutils
+  - intellij-idea-community-edition
   - iotop
   - iperf3
   - iputils
