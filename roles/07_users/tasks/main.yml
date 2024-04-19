@@ -179,6 +179,15 @@
     - lvm2-monitor.service
   when: disable_lvm
 
+- name: Check that US English locale is present
+  community.general.locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set US English as default locale
+  ansible.builtin.command: localectl set-locale LANG=en_US.UTF-8 LC_ADDRESS=en_US.UTF-8 LC_IDENTIFICATION=en_US.UTF-8 LC_MEASUREMENT=en_US.UTF-8 LC_MONETARY=en_US.UTF-8 LC_NAME=en_US.UTF-8 LC_NUMERIC=en_US.UTF-8 LC_PAPER=en_US.UTF-8 LC_TELEPHONE=en_US.UTF-8 LC_TIME=en_US.UTF-8
+  changed_when: no
+
 - name: Mask systemd services - systemd homed
   ansible.builtin.systemd:
     name: "{{ item }}"
