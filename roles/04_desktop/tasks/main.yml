@@ -1,13 +1,13 @@
 ---
 - name: Install desktop environment
-  when: desktop == "kde"
   become: true
+  when: desktop == "kde"
   block:
     - name: Install Plasma
       community.general.pacman:
         name:
           - plasma-meta
-          - plasma-wayland-session
+          # - plasma-wayland-session
           - kde-graphics-meta
           - kde-multimedia-meta
           - kde-network-meta
@@ -70,7 +70,7 @@
         owner: root
         group: root
         mode: 0644
-  
+
     - name: Stop systemd service - gdm.service
       ansible.builtin.systemd:
         name: gdm.service
@@ -82,4 +82,3 @@
       ansible.builtin.systemd:
         name: sddm.service
         enabled: yes
-
