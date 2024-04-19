@@ -35,3 +35,28 @@
     use: "{{ aur_helper }}"
   become: true
   become_user: aur_builder
+
+- name: Set up fusuma for better trackpad support
+  become: true
+  when: desktop in ["gnome", "kde"]
+  block:
+    - name: Set fusuma dir
+      ansible.builtin.set_fact:
+        - fusuma_path: "{{ ansible_env.HOME }}/.config/fusuma"
+    - name: "Add user to input group - {{ ansible_user_id }}"
+      ansible.builtin.user:
+        name: "{{ ansible_user_id }}"
+        groups: input
+        append: yes
+    - name: Ensure fusuma config dir exists
+      ansible.builtin.file:
+        path: "{{ fusuma_path }}"
+        state: directory
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_id }}"
+        mode: "0766"
+    - name: "Copy fusuma config file - {{ desktop }}"
+      ansible.builtin.copy:
+        src: "fusuma-{{ desktop }}.yml"
+        dest: "{{ fusuma_path }}/config.yml"
+        mode: "0766"

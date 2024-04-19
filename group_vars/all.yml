@@ -176,6 +176,7 @@ aur_packages:
   - mailspring-bin
   - mullvad-vpn-bin
   - protonup-qt-bin
+  - ruby-fusuma
   - sddm-theme-tokyo-night
   - ventoy-bin
   - yt-dlp
@@ -211,9 +212,6 @@ flatpaks:
   - us.zoom.Zoom
   # See other themes here
   # flatpak remote-ls flathub | grep org.gtk.Gtk3theme
-
-ruby_gems:
-  - fusuma
 
 fusuma_configs:
   kde:
