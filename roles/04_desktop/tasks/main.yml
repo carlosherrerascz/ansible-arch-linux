@@ -82,3 +82,12 @@
       ansible.builtin.systemd:
         name: sddm.service
         enabled: yes
+
+- name: Import KDE shortcuts
+  when: desktop == "kde"
+  ansible.builtin.pause:
+    prompt: |
+      "Import KDE shortcuts if desired by pressing `Meta` -> "Shortcuts" -> clicking the import button -> select KDE Default for 3 Modifier Keys. The backed up shortcuts file can be found in:"
+      "{{ playbook_dir }}/04_desktop/files/kde-shortcuts.kksrc"
+      "Press [ENTER] once completed."
+    echo: no
