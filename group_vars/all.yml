@@ -30,11 +30,11 @@ git:
 
 # desktop environment to install
 # "kde" or "gnome"
-desktop: gnome
+desktop: kde
 
 theme:
   hyprland: tokyo-night-sddm
-  kde: breeze
+  kde: tokyo-night-sddm
 
 compositor_command:
   hyprland: Hyprland
@@ -122,6 +122,7 @@ packages:
   - jq
   - krita
   - kubectl
+  - libinput
   - linux-firmware
   - man
   - man-db
@@ -144,6 +145,8 @@ packages:
   - pkgstats
   - qbittorrent
   - rsync
+  - ruby
+  - samba
   - solaar
   - sudo
   - thunar
@@ -156,7 +159,7 @@ packages:
   - wget
   - wireguard-tools
   - wireplumber
-  - wpa_supplicant
+  - wpa_supplicantcom.parsecgaming.parsec
   # Needed for GTK apps that run as Flatpaks
   - xdg-desktop-portal-gtk
   - xfsprogs
@@ -191,6 +194,7 @@ flatpaks:
   - com.github.tchx84.Flatseal
   - com.slack.Slack
   - com.spotify.Client
+  - com.parsecgaming.parsec
   - com.valvesoftware.Steam
   - com.valvesoftware.Steam.CompatibilityTool.Proton
   - fr.handbrake.ghb
@@ -208,6 +212,9 @@ flatpaks:
   # See other themes here
   # flatpak remote-ls flathub | grep org.gtk.Gtk3theme
 
+ruby_gems:
+  - fusuma
+  
 base_fonts:
   - adobe-source-code-pro-fonts
   - adobe-source-sans-pro-fonts
