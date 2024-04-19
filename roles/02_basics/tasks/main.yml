@@ -16,6 +16,13 @@
     state: present
   become: true
 
+- name: Start systemd service - smb
+  ansible.builtin.systemd:
+    name: smb
+    state: started
+    enabled: yes
+  become: true
+
 - name: Start systemd service - paccache.timer
   ansible.builtin.systemd:
     name: paccache.timer
