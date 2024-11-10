@@ -95,6 +95,7 @@ packages:
   - alsa-utils
   - alsa-plugins
   - alsa-firmware
+  - aws-cli
   - bash
   - bash-completion
   - bitwarden
@@ -108,6 +109,7 @@ packages:
   - fwupd
   - fzf
   - git
+  - github-cli
   - gnupg
   - go
   - gparted
@@ -149,6 +151,7 @@ packages:
   - samba
   - solaar
   - sudo
+  - terraform
   - thunar
   - tmux
   - tree
@@ -173,14 +176,12 @@ aur_packages:
   - 7-zip-bin
   - brave-bin
   - davinci-resolve
-  - mailspring-bin
   - mullvad-vpn-bin
   - protonup-qt-bin
   - ruby-fusuma
   - sddm-theme-tokyo-night
   - ventoy-bin
   - yt-dlp
-
 
 snapshot_dependencies:
   packages:
@@ -214,10 +215,8 @@ flatpaks:
   # flatpak remote-ls flathub | grep org.gtk.Gtk3theme
 
 fusuma_configs:
-  kde:
-    fusuma-kde.yml
-  gnome:
-    fusuma-gnome-popos.yml
+  kde: fusuma-kde.yml
+  gnome: fusuma-gnome-popos.yml
 base_fonts:
   - adobe-source-code-pro-fonts
   - adobe-source-sans-pro-fonts
